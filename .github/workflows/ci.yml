@@ -20,3 +20,12 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run build
+      env:
+        DATABASE_URL: "postgresql://mock:mock@localhost:5432/mock"
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: "pk_test_Y2xlcmsuaW5kdXN0cmlhbC1wYXJ0cy5jb20k"
+        CLERK_SECRET_KEY: "sk_test_mock"
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "mock"
+        CLOUDINARY_API_KEY: "mock"
+        CLOUDINARY_API_SECRET: "mock"
+        ADMIN_EMAILS: "admin@example.com"
+        NEXT_PUBLIC_WHATSAPP_NUMBER: "1234567890"
