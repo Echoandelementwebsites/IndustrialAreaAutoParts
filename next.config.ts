@@ -27,12 +27,14 @@ const nextConfig: NextConfig = {
             value:
               "default-src 'self'; " +
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.browser.core.windows.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://va.vercel-scripts.com https://cdn.jsdelivr.net https://upload-widget.cloudinary.com; " +
+              "worker-src 'self' blob:; " +
               "style-src 'self' 'unsafe-inline'; " +
               "img-src 'self' blob: data: https:; " +
               "font-src 'self'; " +
               "object-src 'none'; " +
               "base-uri 'self'; " +
               "form-action 'self'; " +
+              "frame-src 'self' https://upload-widget.cloudinary.com; " +
               "frame-ancestors 'none'; " +
               "block-all-mixed-content; " +
               "upgrade-insecure-requests; " +
