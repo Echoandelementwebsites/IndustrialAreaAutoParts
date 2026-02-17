@@ -90,7 +90,7 @@ export function GarageWidget() {
 
   return (
     <>
-      <Button variant="ghost" onClick={() => setIsOpen(true)} className="flex items-center gap-2">
+      <Button variant="ghost" onClick={() => setIsOpen(true)} className="flex items-center gap-2 text-white hover:text-gray-300 hover:bg-white/10">
         <Car className="h-5 w-5" />
         <span className="hidden md:inline">My Garage</span>
       </Button>
