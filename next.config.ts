@@ -16,6 +16,16 @@ const cspHeader = `
 `;
 
 const nextConfig: NextConfig = {
+    images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '/**', // Allows all paths (transformations, folders, etc.)
+      },
+    ],
+  },
   headers: async () => {
     return [
       {
