@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { GarageProvider } from "@/lib/hooks/use-garage";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,11 +19,13 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className="antialiased min-h-screen flex flex-col">
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <GarageProvider>
+            <Header />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </GarageProvider>
         </body>
       </html>
     </ClerkProvider>

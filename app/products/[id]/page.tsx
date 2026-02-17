@@ -4,9 +4,8 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { MessageCircle } from "lucide-react";
+import { WhatsAppButton } from "@/components/features/whatsapp-button";
 import { Metadata } from "next";
 
 interface Props {
@@ -58,7 +57,7 @@ export default async function ProductPage({ params }: Props) {
 
   const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
   const whatsappMessage = `Hi, I am interested in ${product.name} for ${product.make} listed at ${formatCurrency(Number(product.price))}.`;
-  const whatsappUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-[1440px]">
@@ -104,12 +103,14 @@ export default async function ProductPage({ params }: Props) {
           </div>
 
           <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-100">
-            <Button size="lg" className="w-full gap-2 text-lg h-14 bg-[#25D366] hover:bg-[#128C7E] text-white shadow-lg shadow-green-100 hover:shadow-green-200 border-none rounded-full" asChild>
-              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                <MessageCircle className="h-6 w-6" />
-                Order via WhatsApp
-              </a>
-            </Button>
+            <WhatsAppButton
+              productName={product.name}
+              productMake={product.make}
+              price={Number(product.price)}
+              waNumber={waNumber}
+              productId={product.id}
+              whatsappMessage={whatsappMessage}
+            />
             <p className="mt-4 text-sm text-center text-gray-500">
               Direct negotiation with our sales team. Fast response guaranteed.
             </p>
@@ -125,18 +126,19 @@ export default async function ProductPage({ params }: Props) {
             "@context": "https://schema.org",
             "@type": "Product",
             name: product.name,
-            image: product.imageUrl,
-            description: `Buy ${product.name} for ${product.make}.`,
+            image: [product.imageUrl],
+            description: `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
             brand: {
               "@type": "Brand",
               name: product.make,
             },
             offers: {
               "@type": "Offer",
-              url: `https://industrial-parts.com/products/${product.id}`,
+              url: `${baseUrl}/products/${product.id}`,
               priceCurrency: "USD",
               price: product.price,
               availability: product.quantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+              itemCondition: "https://schema.org/NewCondition",
             },
           }),
         }}

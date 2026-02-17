@@ -4,8 +4,39 @@ import { and, eq, ilike, gte, lte, sql, desc } from "drizzle-orm";
 import { ProductCard } from "@/components/features/product-card";
 import { ProductFilters } from "@/components/features/product-filters";
 import { PaginationControl } from "@/components/features/pagination-control";
+import { Metadata } from "next";
 
 type Product = typeof products.$inferSelect;
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
+
+  // Construct canonical URL
+  const url = new URL(`${baseUrl}/products`);
+
+  // Add essential parameters for canonicalization
+  // We exclude 'sort', 'order' or other temporary view params if they existed.
+  // We include filters as they change the content significantly.
+  if (typeof params.category === "string") url.searchParams.set("category", params.category);
+  if (typeof params.make === "string") url.searchParams.set("make", params.make);
+  if (typeof params.year === "string") url.searchParams.set("year", params.year);
+  if (typeof params.q === "string") url.searchParams.set("q", params.q);
+  // Pagination is essential for SEO to index all products
+  if (typeof params.page === "string") url.searchParams.set("page", params.page);
+
+  return {
+    title: "Products | Industrial Area Spare Parts",
+    description: "Browse our extensive catalog of industrial spare parts.",
+    alternates: {
+      canonical: url.toString(),
+    },
+  };
+}
 
 function buildFilterConditions(params: Record<string, string | string[] | undefined>) {
     const filters = [];

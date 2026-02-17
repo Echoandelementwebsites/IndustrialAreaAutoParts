@@ -21,3 +21,11 @@ export const products = pgTable("products", {
   imageUrl: varchar("image_url", { length: 500 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const analyticsEvents = pgTable("analytics_events", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  eventType: varchar("event_type", { length: 50 }).notNull(),
+  productId: uuid("product_id"),
+  meta: jsonb("meta"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
