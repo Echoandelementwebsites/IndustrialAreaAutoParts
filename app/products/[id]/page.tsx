@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/utils";
 import { WhatsAppButton } from "@/components/features/whatsapp-button";
 import { Metadata } from "next";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { StickyActionBar } from "@/components/features/sticky-action-bar";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -59,9 +61,17 @@ export default async function ProductPage({ params }: Props) {
   const whatsappMessage = `Hi, I am interested in ${product.name} for ${product.make} listed at ${formatCurrency(Number(product.price))}.`;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
 
+  const breadcrumbItems = [
+    { label: product.make, href: `/products?make=${encodeURIComponent(product.make)}` },
+    { label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` },
+    { label: product.name, href: `/products/${product.id}` },
+  ];
+
   return (
-    <div className="container mx-auto px-4 py-12 max-w-[1440px]">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div className="container mx-auto px-4 py-8 md:py-12 max-w-[1440px]">
+      <Breadcrumbs items={breadcrumbItems} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
         {/* Image */}
         <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-gray-100 shadow-ease">
           <Image
@@ -75,7 +85,7 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         {/* Details */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 md:gap-8 pb-20 md:pb-0">
           <div>
             <div className="flex items-center gap-2 mb-4">
                <Badge>{product.category}</Badge>
@@ -85,7 +95,7 @@ export default async function ProductPage({ params }: Props) {
                  <span className="text-sm font-medium text-red-600 bg-red-50 px-2 py-1 rounded-md">Out of Stock</span>
                )}
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 leading-tight">{product.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 leading-tight">{product.name}</h1>
             <div className="mt-4 flex items-center gap-4 text-gray-500 text-lg">
                <span className="font-semibold text-gray-900">{product.make}</span>
                <span>•</span>
@@ -93,8 +103,16 @@ export default async function ProductPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="text-4xl font-bold text-gray-900">
+          <div className="text-4xl font-bold text-gray-900 hidden md:block">
             {formatCurrency(Number(product.price))}
+          </div>
+          {/* Mobile price shown in sticky bar, but we can also show it here if we want.
+              The draft hid it on mobile? No, I kept it visible on mobile in draft 2?
+              "Content: Display the Price (left, bold) and the WhatsApp Button (right, full width)." in sticky bar.
+              If I hide it here on mobile, user sees it in sticky bar. That's fine.
+          */}
+           <div className="text-3xl font-bold text-gray-900 md:hidden">
+             {formatCurrency(Number(product.price))}
           </div>
 
           <div className="prose prose-lg prose-gray max-w-none">
@@ -102,7 +120,7 @@ export default async function ProductPage({ params }: Props) {
             <p className="text-gray-600">{Array.isArray(product.model) ? product.model.join(", ") : product.model}</p>
           </div>
 
-          <div className="mt-8 p-6 bg-gray-50 rounded-2xl border border-gray-100">
+          <div className="mt-auto p-6 bg-gray-50 rounded-2xl border border-gray-100 hidden md:block">
             <WhatsAppButton
               productName={product.name}
               productMake={product.make}
@@ -117,6 +135,15 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      <StickyActionBar
+        price={Number(product.price)}
+        productName={product.name}
+        productMake={product.make}
+        productId={product.id}
+        waNumber={waNumber}
+        whatsappMessage={whatsappMessage}
+      />
 
       {/* JSON-LD */}
       <script
