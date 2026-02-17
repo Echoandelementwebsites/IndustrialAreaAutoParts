@@ -69,9 +69,18 @@ function PhotoUploadField({ imageUrl, onUpload }: { imageUrl: string; onUpload: 
     }
   };
 
+  const isCloudinaryConfigured = !!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
   return (
           <div className="space-y-2">
           <label className="text-sm font-medium text-gray-900">Photo (Optional)</label>
+          {!isCloudinaryConfigured ? (
+             <div className="border-2 border-dashed border-gray-200 rounded-2xl p-4 bg-gray-50 flex flex-col items-center justify-center min-h-[120px] text-gray-400">
+               <Upload className="h-8 w-8 mb-2 opacity-50" />
+               <span className="text-sm">Image upload disabled</span>
+               <span className="text-xs">(Cloudinary not configured)</span>
+             </div>
+          ) : (
           <div className="border-2 border-dashed border-gray-200 rounded-2xl p-4 hover:bg-gray-50 transition-colors">
             <CldUploadWidget
               uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || "ml_default"}
@@ -98,6 +107,7 @@ function PhotoUploadField({ imageUrl, onUpload }: { imageUrl: string; onUpload: 
               }}
             </CldUploadWidget>
           </div>
+          )}
         </div>
   );
 }
