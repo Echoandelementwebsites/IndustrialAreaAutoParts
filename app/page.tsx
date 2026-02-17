@@ -40,9 +40,10 @@ export default async function Home() {
              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1486262715619-01b80250e0dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')" }}
            />
            <div className="relative z-20 flex flex-col items-start gap-6 p-12 md:p-24">
-             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Premium Auto Parts for Your Business</h1>
+             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Premium Auto Parts for Your Car.</h1>
              <p className="max-w-xl text-lg text-gray-200">
-               Find the highest quality industrial spare parts. Engines, suspensions, body panels and more.
+               Find the highest quality automotive spare parts. Engines, suspensions, body panels and more.
+               Don't let your car fall apart while we're right here at Industrial Area Spare Parts. If you want it, we have it.
              </p>
              <Link href="/products">
                <Button size="lg" className="text-lg bg-white text-gray-900 hover:bg-gray-100 border-none">Shop Now</Button>
