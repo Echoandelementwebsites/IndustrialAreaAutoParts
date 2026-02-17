@@ -5,10 +5,40 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { useCallback } from "react";
+import { useGarage } from "@/lib/hooks/use-garage";
+
+function useGarageFilter() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { car } = useGarage();
+
+  const isGarageActive = car &&
+    searchParams.get("make") === car.make &&
+    searchParams.get("year") === String(car.year);
+
+  const toggleGarage = () => {
+    if (!car) return;
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (isGarageActive) {
+      params.delete("make");
+      params.delete("year");
+    } else {
+      params.set("make", car.make);
+      params.set("year", String(car.year));
+    }
+
+    router.replace(`/products?${params.toString()}`);
+  };
+
+  return { isGarageActive, toggleGarage, car };
+}
 
 export function ProductFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { isGarageActive, toggleGarage, car } = useGarageFilter();
 
   const createQueryString = useCallback(
     (params: Record<string, string | null>) => {
@@ -42,7 +72,7 @@ export function ProductFilters() {
       year,
       page: "1",
     });
-    router.push(`/products?${query}`);
+    router.replace(`/products?${query}`);
   };
 
   return (
@@ -96,6 +126,34 @@ export function ProductFilters() {
       </div>
 
       <Button type="submit">Filter</Button>
+
+      {car && (
+        <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+           <button
+             type="button"
+             onClick={toggleGarage}
+             className={`
+               relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2
+               ${isGarageActive ? 'bg-blue-600' : 'bg-gray-200'}
+             `}
+             role="switch"
+             aria-checked={!!isGarageActive}
+           >
+             <span className="sr-only">Use My Garage</span>
+             <span
+               aria-hidden="true"
+               className={`
+                 pointer-events-none inline-block h-7 w-7 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out
+                 ${isGarageActive ? 'translate-x-6' : 'translate-x-0'}
+               `}
+             />
+           </button>
+           <div className="text-sm">
+              <p className="font-medium text-gray-900">My {car.make}</p>
+              <p className="text-xs text-gray-500">Show compatible parts</p>
+           </div>
+        </div>
+      )}
     </form>
   );
 }

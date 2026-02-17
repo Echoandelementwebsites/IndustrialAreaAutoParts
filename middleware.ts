@@ -4,18 +4,21 @@ import { NextResponse } from "next/server";
 const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
 
 // Simple in-memory rate limiter (per instance)
-const rateLimit = new Map();
+const rateLimit = new Map<string, { count: number; startTime: number }>();
 
 export default clerkMiddleware(async (auth, req) => {
   const ip = req.headers.get("x-forwarded-for") || "unknown";
-  const limit = 100; // requests per minute
+
+  // Stricter limit for POST requests (forms, server actions)
+  const isPost = req.method === "POST";
+  const limit = isPost ? 20 : 100; // 20 POSTs vs 100 GETs per minute
   const windowMs = 60 * 1000;
 
   if (!rateLimit.has(ip)) {
     rateLimit.set(ip, { count: 0, startTime: Date.now() });
   }
 
-  const current = rateLimit.get(ip);
+  const current = rateLimit.get(ip)!;
   if (Date.now() - current.startTime > windowMs) {
     current.count = 0;
     current.startTime = Date.now();

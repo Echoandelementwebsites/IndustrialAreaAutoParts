@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { GarageWidget } from "@/components/features/garage-widget";
 
 export function Header() {
   return (
@@ -17,6 +18,7 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center gap-4">
+           <GarageWidget />
            <Link href="/dashboard">
              <Button variant="ghost" size="sm">Admin</Button>
            </Link>
