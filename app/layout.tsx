@@ -7,7 +7,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Industrial Area Spare Parts",
-  description: "Your trusted source for industrial auto parts.",
+  description: "Your trusted source for affordable and high quality auto parts in Nairobi.",
 };
 
 export default function RootLayout({
