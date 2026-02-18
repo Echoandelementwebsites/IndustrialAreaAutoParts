@@ -81,7 +81,7 @@ function SelectField({ label, name, options, defaultValue, placeholder }: { labe
             <select
                 name={name}
                 defaultValue={defaultValue || ""}
-                className="flex h-11 w-full rounded-xl bg-gray-50 px-4 py-2 text-sm ring-offset-background border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-gray-900"
+                className="flex h-11 w-full rounded-xl bg-gray-50 px-4 py-2 text-sm ring-offset-background border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFCD11] text-gray-900"
                 required
             >
                 <option value="" disabled>{placeholder}</option>

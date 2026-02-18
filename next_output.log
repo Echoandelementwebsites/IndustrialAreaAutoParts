@@ -1,0 +1,177 @@
+
+> next_app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1961ms
+○ Compiling / ...
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1
+params: 9
+    at async Home (app/page.tsx:36:20)
+  34 |   let newArrivals: Product[] = [];
+  35 |   try {
+> 36 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+     |                    ^
+  37 |   } catch (e) {
+  38 |      console.error("Failed to fetch products:", e);
+  39 |   } {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Home (app/page.tsx:36:20)
+    34 |   let newArrivals: Product[] = [];
+    35 |   try {
+  > 36 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+       |                    ^
+    37 |   } catch (e) {
+    38 |      console.error("Failed to fetch products:", e);
+    39 |   } {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Home (app/page.tsx:36:20)
+      34 |   let newArrivals: Product[] = [];
+      35 |   try {
+    > 36 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+         |                    ^
+      37 |   } catch (e) {
+      38 |      console.error("Failed to fetch products:", e);
+      39 |   } {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET / 200 in 6.9s (compile: 5.7s, proxy.ts: 145ms, render: 1115ms)
+ POST / 200 in 170ms (compile: 35ms, proxy.ts: 101ms, render: 34ms)
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1
+params: 32
+    at async ProductsPage (app/products/page.tsx:79:12)
+  77 |
+  78 |   try {
+> 79 |     data = await db.select().from(products)
+     |            ^
+  80 |       .where(and(...whereConditions))
+  81 |       .limit(limit)
+  82 |       .offset(offset) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductsPage (app/products/page.tsx:79:12)
+    77 |
+    78 |   try {
+  > 79 |     data = await db.select().from(products)
+       |            ^
+    80 |       .where(and(...whereConditions))
+    81 |       .limit(limit)
+    82 |       .offset(offset) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductsPage (app/products/page.tsx:79:12)
+      77 |
+      78 |   try {
+    > 79 |     data = await db.select().from(products)
+         |            ^
+      80 |       .where(and(...whereConditions))
+      81 |       .limit(limit)
+      82 |       .offset(offset) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products 200 in 1756ms (compile: 1276ms, proxy.ts: 7ms, render: 473ms)
+ POST /products 200 in 25ms (compile: 5ms, proxy.ts: 7ms, render: 13ms)
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where "products"."category" = $1 order by "products"."created_at" desc limit $2
+params: Suspension,32
+    at async ProductsPage (app/products/page.tsx:79:12)
+  77 |
+  78 |   try {
+> 79 |     data = await db.select().from(products)
+     |            ^
+  80 |       .where(and(...whereConditions))
+  81 |       .limit(limit)
+  82 |       .offset(offset) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where "products"."category" = $1 order by "products"."created_at" desc limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductsPage (app/products/page.tsx:79:12)
+    77 |
+    78 |   try {
+  > 79 |     data = await db.select().from(products)
+       |            ^
+    80 |       .where(and(...whereConditions))
+    81 |       .limit(limit)
+    82 |       .offset(offset) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductsPage (app/products/page.tsx:79:12)
+      77 |
+      78 |   try {
+    > 79 |     data = await db.select().from(products)
+         |            ^
+      80 |       .where(and(...whereConditions))
+      81 |       .limit(limit)
+      82 |       .offset(offset) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products?category=Suspension 200 in 317ms (compile: 16ms, proxy.ts: 21ms, render: 280ms)
