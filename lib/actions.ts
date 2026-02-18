@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { products, analyticsEvents } from "@/db/schema";
-import { eq, count, lt, desc, sql } from "drizzle-orm";
+import { eq, count, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkIsAdmin } from "@/lib/auth";
@@ -38,8 +38,13 @@ export async function createProduct(formData: FormData) {
     const modelStr = formData.get("model") as string;
     const year = Number(formData.get("year"));
     const price = formData.get("price") as string;
-    const quantity = Number(formData.get("quantity"));
+    const description = formData.get("description") as string;
+    const inStock = formData.get("inStock") === "true";
     const imageUrl = formData.get("imageUrl") as string;
+
+    if (!description || description.trim() === "") {
+        throw new Error("Description is required");
+    }
 
     const model = modelStr.split(",").map(m => m.trim()).filter(m => m);
 
@@ -50,7 +55,8 @@ export async function createProduct(formData: FormData) {
       model,
       year,
       price,
-      quantity,
+      description,
+      inStock,
       imageUrl,
     });
 
@@ -78,8 +84,13 @@ export async function updateProduct(formData: FormData) {
     const modelStr = formData.get("model") as string;
     const year = Number(formData.get("year"));
     const price = formData.get("price") as string;
-    const quantity = Number(formData.get("quantity"));
+    const description = formData.get("description") as string;
+    const inStock = formData.get("inStock") === "true";
     const imageUrl = formData.get("imageUrl") as string;
+
+    if (!description || description.trim() === "") {
+        throw new Error("Description is required");
+    }
 
     const model = modelStr.split(",").map(m => m.trim()).filter(m => m);
 
@@ -90,7 +101,8 @@ export async function updateProduct(formData: FormData) {
       model,
       year,
       price,
-      quantity,
+      description,
+      inStock,
       imageUrl,
     }).where(eq(products.id, id));
 
@@ -122,13 +134,13 @@ export async function getDashboardStats() {
   if (!isAdmin) throw new Error("Unauthorized");
 
   const [totalProductsResult] = await db.select({ count: count() }).from(products);
-  const [lowStockResult] = await db.select({ count: count() }).from(products).where(lt(products.quantity, 3));
+  const [outOfStockResult] = await db.select({ count: count() }).from(products).where(eq(products.inStock, false));
   // We only care about whatsapp_click events for total clicks
   const [totalClicksResult] = await db.select({ count: count() }).from(analyticsEvents).where(eq(analyticsEvents.eventType, "whatsapp_click"));
 
   return {
     totalProducts: totalProductsResult?.count || 0,
-    lowStockCount: lowStockResult?.count || 0,
+    outOfStockCount: outOfStockResult?.count || 0,
     totalClicks: totalClicksResult?.count || 0,
   };
 }

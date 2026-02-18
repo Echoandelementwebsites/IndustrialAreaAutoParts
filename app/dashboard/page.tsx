@@ -1,8 +1,6 @@
-import { getDashboardStats, getTopProducts, seedAnalyticsData } from "@/lib/actions";
+import { getDashboardStats, getTopProducts } from "@/lib/actions";
 import { KpiStats } from "@/components/dashboard/kpi-stats";
 import { TopProducts } from "@/components/dashboard/top-products";
-import { Button } from "@/components/ui/button";
-import { RefreshCcw } from "lucide-react";
 
 export default async function DashboardPage() {
   const stats = await getDashboardStats();
@@ -18,19 +16,11 @@ export default async function DashboardPage() {
             Welcome back. Here is what is happening with your store.
           </p>
         </div>
-
-        {/* Helper for demo purposes - can be removed in production */}
-        {/* <form action={seedAnalyticsData}>
-           <Button variant="outline" size="sm" className="gap-2">
-             <RefreshCcw className="w-4 h-4" />
-             Seed Data
-           </Button>
-        </form> */}
       </div>
 
       <KpiStats
         totalProducts={stats.totalProducts}
-        lowStockCount={stats.lowStockCount}
+        outOfStockCount={stats.outOfStockCount}
         totalClicks={stats.totalClicks}
       />
 
