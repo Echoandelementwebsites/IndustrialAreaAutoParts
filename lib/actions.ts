@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { products, analyticsEvents } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, count, lt, desc, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkIsAdmin } from "@/lib/auth";
@@ -114,5 +114,65 @@ export async function deleteProduct(formData: FormData) {
   await db.delete(products).where(eq(products.id, id));
 
   revalidatePath("/products");
+  revalidatePath("/dashboard");
+}
+
+export async function getDashboardStats() {
+  const isAdmin = await checkIsAdmin();
+  if (!isAdmin) throw new Error("Unauthorized");
+
+  const [totalProductsResult] = await db.select({ count: count() }).from(products);
+  const [lowStockResult] = await db.select({ count: count() }).from(products).where(lt(products.quantity, 3));
+  // We only care about whatsapp_click events for total clicks
+  const [totalClicksResult] = await db.select({ count: count() }).from(analyticsEvents).where(eq(analyticsEvents.eventType, "whatsapp_click"));
+
+  return {
+    totalProducts: totalProductsResult?.count || 0,
+    lowStockCount: lowStockResult?.count || 0,
+    totalClicks: totalClicksResult?.count || 0,
+  };
+}
+
+export async function getTopProducts() {
+  const isAdmin = await checkIsAdmin();
+  if (!isAdmin) throw new Error("Unauthorized");
+
+  const topProducts = await db
+    .select({
+      productId: analyticsEvents.productId,
+      clickCount: count(),
+      productName: products.name,
+      productCategory: products.category,
+    })
+    .from(analyticsEvents)
+    .leftJoin(products, eq(analyticsEvents.productId, products.id))
+    .where(eq(analyticsEvents.eventType, "whatsapp_click"))
+    .groupBy(analyticsEvents.productId, products.name, products.category)
+    .orderBy(desc(count()))
+    .limit(5);
+
+  return topProducts;
+}
+
+export async function seedAnalyticsData() {
+  const isAdmin = await checkIsAdmin();
+  if (!isAdmin) throw new Error("Unauthorized");
+
+  // Get some products to click on
+  const allProducts = await db.select().from(products).limit(5);
+  if (allProducts.length === 0) return;
+
+  const events = [];
+  // Generate random clicks
+  for (let i = 0; i < 20; i++) {
+    const randomProduct = allProducts[Math.floor(Math.random() * allProducts.length)];
+    events.push({
+      eventType: "whatsapp_click",
+      productId: randomProduct.id,
+      meta: { seeded: true },
+    });
+  }
+
+  await db.insert(analyticsEvents).values(events);
   revalidatePath("/dashboard");
 }
