@@ -41,7 +41,7 @@ export function GarageWidget() {
                 <X className="h-5 w-5" />
             </button>
           <h2 className="mb-4 text-xl font-bold text-gray-900 flex items-center gap-2">
-            <Car className="h-6 w-6 text-blue-600" />
+            <Car className="h-6 w-6 text-[#FFCD11]" />
             Add Your Vehicle
           </h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -72,14 +72,14 @@ export function GarageWidget() {
 
   if (car) {
     return (
-      <div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
-        <Car className="h-4 w-4 text-blue-600" />
-        <span className="text-sm font-medium text-blue-900">
+      <div className="flex items-center gap-2 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-200">
+        <Car className="h-4 w-4 text-yellow-600" />
+        <span className="text-sm font-medium text-yellow-900">
           My {car.make} {car.model}
         </span>
         <button
           onClick={clearCar}
-          className="ml-1 text-blue-400 hover:text-blue-600"
+          className="ml-1 text-yellow-500 hover:text-yellow-700"
           title="Remove car"
         >
           <X className="h-3 w-3" />

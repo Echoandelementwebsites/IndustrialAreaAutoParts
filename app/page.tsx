@@ -67,7 +67,7 @@ export default async function Home() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {CATEGORIES.map((cat) => (
             <Link key={cat} href={`/products?category=${encodeURIComponent(cat)}`} className="block h-full">
-              <div className="group relative flex h-32 flex-col items-center justify-center rounded-2xl overflow-hidden shadow-ease transition-all hover:scale-[1.05] hover:shadow-ease-hover cursor-pointer border border-transparent hover:border-blue-100 text-center p-4">
+              <div className="group relative flex h-32 flex-col items-center justify-center rounded-2xl overflow-hidden shadow-ease transition-all hover:scale-[1.05] hover:shadow-ease-hover cursor-pointer border border-transparent hover:border-yellow-200 text-center p-4">
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{ backgroundImage: `url('${CATEGORY_IMAGES[cat]}')` }}

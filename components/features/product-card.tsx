@@ -37,7 +37,7 @@ export function ProductCard({ product }: { product: Product }) {
                <span className="text-xs text-red-600 font-medium">Out of Stock</span>
             )}
           </div>
-          <h3 className="mb-1 text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="mb-1 text-lg font-bold text-gray-900 line-clamp-2 group-hover:text-[#E6B800] transition-colors">
             {product.name}
           </h3>
           <p className="text-sm text-gray-500 line-clamp-1 mb-4">
@@ -47,7 +47,7 @@ export function ProductCard({ product }: { product: Product }) {
             <span className="text-xl font-bold text-gray-900">
               {formatCurrency(Number(product.price))}
             </span>
-             <span className="text-sm text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+             <span className="text-sm text-[#E6B800] font-medium opacity-0 group-hover:opacity-100 transition-opacity">
                 View Details
              </span>
           </div>

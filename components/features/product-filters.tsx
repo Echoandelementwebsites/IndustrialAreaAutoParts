@@ -133,8 +133,8 @@ export function ProductFilters() {
              type="button"
              onClick={toggleGarage}
              className={`
-               relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2
-               ${isGarageActive ? 'bg-blue-600' : 'bg-gray-200'}
+               relative inline-flex h-8 w-14 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FFCD11] focus-visible:ring-offset-2
+               ${isGarageActive ? 'bg-[#FFCD11]' : 'bg-gray-200'}
              `}
              role="switch"
              aria-checked={!!isGarageActive}

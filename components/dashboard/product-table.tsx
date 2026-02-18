@@ -85,7 +85,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                   </td>
                   <td className="px-6 py-3 text-right">
                     <div className="flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                      <Button asChild size="icon" variant="ghost" className="h-8 w-8 text-gray-500 hover:text-blue-600 hover:bg-blue-50">
+                      <Button asChild size="icon" variant="ghost" className="h-8 w-8 text-gray-500 hover:text-black hover:bg-yellow-100">
                         <Link href={`/dashboard/edit/${product.id}`}>
                           <Edit className="h-4 w-4" />
                           <span className="sr-only">Edit</span>
