@@ -14,6 +14,8 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
+type Product = typeof products.$inferSelect;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
@@ -30,12 +32,58 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
       title: `${product.name} | Industrial Area Spare Parts`,
-      description: `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
+      description: product.description ? product.description.substring(0, 160) : `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
     };
   } catch (error) {
     console.error("Metadata generation error:", error);
     return { title: "Error" };
   }
+}
+
+function ProductAvailabilityBadge({ inStock }: { inStock: boolean }) {
+  return inStock ? (
+    <span className="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-md">In Stock</span>
+  ) : (
+    <span className="text-sm font-medium text-red-600 bg-red-50 px-2 py-1 rounded-md">Out of Stock</span>
+  );
+}
+
+function ProductDescription({ description, model }: { description: string | null, model: string[] | string }) {
+  return (
+    <div className="prose prose-lg prose-gray max-w-none">
+      {description && (
+        <>
+          <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
+          <p className="text-gray-600 mb-6">{description}</p>
+        </>
+      )}
+
+      <h3 className="font-semibold text-gray-900 mb-2">Compatible Models</h3>
+      <p className="text-gray-600">{Array.isArray(model) ? model.join(", ") : model}</p>
+    </div>
+  );
+}
+
+function generateJsonLd(product: Product, baseUrl: string) {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: [product.imageUrl],
+    description: product.description || `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
+    brand: {
+      "@type": "Brand",
+      name: product.make,
+    },
+    offers: {
+      "@type": "Offer",
+      url: `${baseUrl}/products/${product.id}`,
+      priceCurrency: "KES",
+      price: product.price,
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -89,11 +137,7 @@ export default async function ProductPage({ params }: Props) {
           <div>
             <div className="flex items-center gap-2 mb-4">
                <Badge>{product.category}</Badge>
-               {product.quantity > 0 ? (
-                 <span className="text-sm font-medium text-green-600 bg-green-50 px-2 py-1 rounded-md">In Stock</span>
-               ) : (
-                 <span className="text-sm font-medium text-red-600 bg-red-50 px-2 py-1 rounded-md">Out of Stock</span>
-               )}
+               <ProductAvailabilityBadge inStock={product.inStock} />
             </div>
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 leading-tight">{product.name}</h1>
             <div className="mt-4 flex items-center gap-4 text-gray-500 text-lg">
@@ -106,19 +150,12 @@ export default async function ProductPage({ params }: Props) {
           <div className="text-4xl font-bold text-gray-900 hidden md:block">
             {formatCurrency(Number(product.price))}
           </div>
-          {/* Mobile price shown in sticky bar, but we can also show it here if we want.
-              The draft hid it on mobile? No, I kept it visible on mobile in draft 2?
-              "Content: Display the Price (left, bold) and the WhatsApp Button (right, full width)." in sticky bar.
-              If I hide it here on mobile, user sees it in sticky bar. That's fine.
-          */}
+          {/* Mobile price shown in sticky bar */}
            <div className="text-3xl font-bold text-gray-900 md:hidden">
              {formatCurrency(Number(product.price))}
           </div>
 
-          <div className="prose prose-lg prose-gray max-w-none">
-            <h3 className="font-semibold text-gray-900 mb-2">Compatible Models</h3>
-            <p className="text-gray-600">{Array.isArray(product.model) ? product.model.join(", ") : product.model}</p>
-          </div>
+          <ProductDescription description={product.description} model={product.model} />
 
           <div className="mt-auto p-6 bg-gray-50 rounded-2xl border border-gray-100 hidden md:block">
             <WhatsAppButton
@@ -149,25 +186,7 @@ export default async function ProductPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            name: product.name,
-            image: [product.imageUrl],
-            description: `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
-            brand: {
-              "@type": "Brand",
-              name: product.make,
-            },
-            offers: {
-              "@type": "Offer",
-              url: `${baseUrl}/products/${product.id}`,
-              priceCurrency: "USD",
-              price: product.price,
-              availability: product.quantity > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-              itemCondition: "https://schema.org/NewCondition",
-            },
-          }),
+          __html: generateJsonLd(product, baseUrl),
         }}
       />
     </div>

@@ -10,7 +10,7 @@ interface Product {
   imageUrl: string;
   make: string;
   model: string[];
-  quantity: number;
+  inStock: boolean;
 }
 
 export function ProductCard({ product }: { product: Product }) {
@@ -31,7 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
             <Badge variant="secondary" className="font-normal text-xs uppercase tracking-wider">
               {product.make}
             </Badge>
-            {product.quantity > 0 ? (
+            {product.inStock ? (
                <span className="text-xs text-green-600 font-medium">In Stock</span>
             ) : (
                <span className="text-xs text-red-600 font-medium">Out of Stock</span>

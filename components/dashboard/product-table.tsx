@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
 import { deleteProduct } from "@/lib/actions";
+import { formatCurrency } from "@/lib/utils";
 
 interface Product {
   id: string;
@@ -15,7 +16,7 @@ interface Product {
   model: string[];
   year: number;
   price: string;
-  quantity: number;
+  inStock: boolean;
   imageUrl: string;
 }
 
@@ -29,7 +30,7 @@ export function ProductTable({ products }: { products: Product[] }) {
               <th className="px-6 py-4 font-medium w-[80px]">Image</th>
               <th className="px-6 py-4 font-medium">Name</th>
               <th className="px-6 py-4 font-medium">Category</th>
-              <th className="px-6 py-4 font-medium">Stock</th>
+              <th className="px-6 py-4 font-medium">Status</th>
               <th className="px-6 py-4 font-medium">Price</th>
               <th className="px-6 py-4 font-medium text-right">Actions</th>
             </tr>
@@ -73,16 +74,14 @@ export function ProductTable({ products }: { products: Product[] }) {
                     </Badge>
                   </td>
                   <td className="px-6 py-3">
-                    {product.quantity === 0 ? (
-                      <Badge variant="destructive" className="font-normal">Out of Stock</Badge>
-                    ) : product.quantity < 3 ? (
-                      <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-200 border-orange-200 font-normal shadow-none">Low Stock</Badge>
+                    {product.inStock ? (
+                       <Badge className="bg-green-100 text-green-700 hover:bg-green-200 border-green-200 font-normal shadow-none">In Stock</Badge>
                     ) : (
-                      <span className="text-gray-600 font-medium">{product.quantity}</span>
+                       <Badge variant="destructive" className="font-normal">Out of Stock</Badge>
                     )}
                   </td>
                   <td className="px-6 py-3 font-medium text-gray-900">
-                    ${product.price}
+                    {formatCurrency(Number(product.price))}
                   </td>
                   <td className="px-6 py-3 text-right">
                     <div className="flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
