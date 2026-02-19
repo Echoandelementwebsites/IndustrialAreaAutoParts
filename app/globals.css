@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --shadow-ease: 0 8px 30px rgb(0 0 0 / 0.04);

@@ -2,13 +2,13 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import Image from "next/image";
 import { Upload, Check, X } from "lucide-react";
 import { products } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 type Product = typeof products.$inferSelect;
 
@@ -81,7 +81,7 @@ function SelectField({ label, name, options, defaultValue, placeholder }: { labe
             <select
                 name={name}
                 defaultValue={defaultValue || ""}
-                className="flex h-11 w-full rounded-xl bg-gray-50 px-4 py-2 text-sm ring-offset-background border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 text-gray-900"
+                className="flex h-11 w-full rounded-xl bg-gray-50 px-4 py-2 text-sm ring-offset-background border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFCD11] text-gray-900"
                 required
             >
                 <option value="" disabled>{placeholder}</option>
@@ -91,7 +91,7 @@ function SelectField({ label, name, options, defaultValue, placeholder }: { labe
     );
 }
 
-function BasicInfoSection({ initialData }: { initialData?: Product }) {
+function BasicInfoSection({ initialData, description, setDescription }: { initialData?: Product, description: string, setDescription: (val: string) => void }) {
     const modelDefault = Array.isArray(initialData?.model) ? initialData.model.join(", ") : (initialData?.model || "");
 
     return (
@@ -139,13 +139,11 @@ function BasicInfoSection({ initialData }: { initialData?: Product }) {
 
             <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-900">Description</label>
-                <Textarea
-                    name="description"
-                    defaultValue={initialData?.description}
-                    required
-                    placeholder="Enter detailed product description..."
-                    className="min-h-[120px] rounded-xl border-gray-200 focus:ring-[#FFCD11]"
+                <RichTextEditor
+                    value={description}
+                    onChange={setDescription}
                 />
+                <input type="hidden" name="description" value={description} />
             </div>
         </div>
     );
@@ -212,6 +210,7 @@ function InventoryPricingSection({ initialData }: { initialData?: Product }) {
 
 export function ProductForm({ initialData, action }: ProductFormProps) {
   const [imageUrl, setImageUrl] = useState(initialData?.imageUrl || "");
+  const [description, setDescription] = useState(initialData?.description || "");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUpload = (result: any) => {
@@ -240,7 +239,7 @@ export function ProductForm({ initialData, action }: ProductFormProps) {
         <form action={action} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
                 {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
-                <BasicInfoSection initialData={initialData} />
+                <BasicInfoSection initialData={initialData} description={description} setDescription={setDescription} />
             </div>
 
             <div className="lg:col-span-1 space-y-8">

@@ -42,7 +42,10 @@ export async function createProduct(formData: FormData) {
     const inStock = formData.get("inStock") === "true";
     const imageUrl = formData.get("imageUrl") as string;
 
-    if (!description || description.trim() === "") {
+    // Validate description: strip HTML and check for content
+    const strippedDescription = description ? description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : "";
+
+    if (!description || strippedDescription === "") {
         throw new Error("Description is required");
     }
 
@@ -88,7 +91,10 @@ export async function updateProduct(formData: FormData) {
     const inStock = formData.get("inStock") === "true";
     const imageUrl = formData.get("imageUrl") as string;
 
-    if (!description || description.trim() === "") {
+    // Validate description: strip HTML and check for content
+    const strippedDescription = description ? description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim() : "";
+
+    if (!description || strippedDescription === "") {
         throw new Error("Description is required");
     }
 

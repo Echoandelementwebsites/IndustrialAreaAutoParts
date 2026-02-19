@@ -44,7 +44,7 @@ export function CategoryPills() {
               className={cn(
                 "whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-200 ring-2 ring-blue-100 ring-offset-1"
+                  ? "bg-[#FFCD11] text-black shadow-md shadow-yellow-200 ring-2 ring-yellow-100 ring-offset-1"
                   : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 shadow-sm hover:shadow-md"
               )}
             >
