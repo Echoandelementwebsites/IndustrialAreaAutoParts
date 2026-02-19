@@ -7,7 +7,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-black/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
-           <span className="text-xl font-bold tracking-tight text-[#FFCD11]">Industrial Area Spare Parts</span>
+           <span className="text-xl font-bold tracking-tight text-[#FFCD11]">4WD AutoSpares</span>
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">

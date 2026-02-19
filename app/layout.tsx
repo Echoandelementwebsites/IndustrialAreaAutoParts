@@ -6,7 +6,7 @@ import { GarageProvider } from "@/lib/hooks/use-garage";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Industrial Area Spare Parts",
+  title: "4WD AutoSpares",
   description: "Your trusted source for affordable and high quality auto parts in Nairobi.",
 };
 
