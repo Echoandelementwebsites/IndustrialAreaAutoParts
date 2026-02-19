@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
@@ -40,19 +41,35 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-16 py-12">
-      {/* Hero Section */}
-      <section
-        className="relative w-full min-h-[60vh] flex items-center justify-center bg-cover bg-center"
-        style={{
-          backgroundImage: "url('/images/banner.png')",
-        }}
-      >
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Link href="/products">
-            <Button size="lg" className="px-8 py-6 text-lg rounded-full shadow-xl bg-[#FFCD11] text-black hover:bg-[#e6b800] transition-all">
-              Shop Now
-            </Button>
-          </Link>
+      {/* Hero Section - Floating Uncropped Banner */}
+      <section className="container mx-auto px-4 max-w-[1440px]">
+        <div className="relative w-full rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-gray-50 flex items-center justify-center">
+
+          {/* Uncropped Banner Image */}
+          <Image
+            src="/images/banner.png"
+            alt="Find Your Perfect Part"
+            width={1235}
+            height={577} // This forces a healthy aspect ratio calculation
+            className="w-full h-auto object-contain"
+            priority
+          />
+
+          {/* Bottom-Centered Button */}
+          {/* pointer-events-none on parent ensures image remains clickable/draggable if needed, but we restore pointer events on the button itself */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute bottom-[8%] sm:bottom-[12%] left-1/2 transform -translate-x-1/2 pointer-events-auto">
+              <Link href="/products">
+                <Button
+                  size="lg"
+                  className="px-8 py-6 text-lg font-bold rounded-full shadow-xl bg-[#FFCD11] text-black hover:bg-[#e6b800] hover:scale-105 transition-all"
+                >
+                  Shop Now
+                </Button>
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
