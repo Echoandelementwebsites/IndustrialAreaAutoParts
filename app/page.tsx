@@ -41,23 +41,18 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-16 py-12">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 max-w-[1440px]">
-        <div className="relative overflow-hidden rounded-3xl bg-gray-900 text-white shadow-ease">
-           <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent z-10" />
-           <div
-             className="absolute inset-0 bg-cover bg-center opacity-50"
-             style={{ backgroundImage: "url('/images/Hero.jpg')" }}
-           />
-           <div className="relative z-20 flex flex-col items-start gap-6 p-12 md:p-24">
-             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">Premium Auto Parts for Your Car.</h1>
-             <p className="max-w-xl text-lg text-gray-200">
-               Find the highest quality automotive spare parts. Engines, suspensions, body panels and more.
-               Don&apos;t let your car fall apart while we&apos;re right here at Industrial Area Spare Parts. If you want it, we have it.
-             </p>
-             <Link href="/products">
-               <Button size="lg" className="text-lg bg-white text-gray-900 hover:bg-gray-100 border-none">Shop Now</Button>
-             </Link>
-           </div>
+      <section
+        className="relative w-full min-h-[60vh] flex items-center justify-center bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/images/banner.png')",
+        }}
+      >
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <Link href="/products">
+            <Button size="lg" className="px-8 py-6 text-lg rounded-full shadow-xl bg-[#FFCD11] text-black hover:bg-[#e6b800] transition-all">
+              Shop Now
+            </Button>
+          </Link>
         </div>
       </section>
 
