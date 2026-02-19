@@ -9,7 +9,7 @@ import { WhatsAppButton } from "@/components/features/whatsapp-button";
 import { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { StickyActionBar } from "@/components/features/sticky-action-bar";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -50,6 +50,14 @@ function ProductAvailabilityBadge({ inStock }: { inStock: boolean }) {
 }
 
 function ProductDescription({ description, model }: { description: string | null, model: string[] | string }) {
+  const cleanDescription = description ? sanitizeHtml(description, {
+      allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'h1', 'h2', 'h3', 'span' ]),
+      allowedAttributes: {
+        ...sanitizeHtml.defaults.allowedAttributes,
+        '*': ['class', 'style'] // Crucial for Tailwind typography
+      }
+    }) : "";
+
   return (
     <div className="flex flex-col gap-8">
       {description && (
@@ -57,7 +65,7 @@ function ProductDescription({ description, model }: { description: string | null
           <h3 className="text-xl font-bold text-gray-900 mb-4">Description</h3>
           <div
             className="prose prose-lg prose-gray max-w-none prose-headings:font-bold prose-a:text-blue-600"
-            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
+            dangerouslySetInnerHTML={{ __html: cleanDescription }}
           />
         </div>
       )}

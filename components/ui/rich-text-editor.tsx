@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Quill from "quill";
+import type Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ export function RichTextEditor({ value, onChange, className }: RichTextEditorPro
   const quillRef = useRef<Quill | null>(null);
   const onChangeRef = useRef(onChange);
   const [isFocused, setIsFocused] = useState(false);
+  const [isQuillReady, setIsQuillReady] = useState(false);
 
   // Keep onChange ref current to avoid stale closures in Quill callback
   useEffect(() => {
@@ -23,39 +24,39 @@ export function RichTextEditor({ value, onChange, className }: RichTextEditorPro
   }, [onChange]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     if (containerRef.current && !quillRef.current) {
       // Create a specific div for the editor to avoid appending toolbar outside
       const editorDiv = document.createElement("div");
       containerRef.current.appendChild(editorDiv);
 
-      const quill = new Quill(editorDiv, {
-        theme: "snow",
-        modules: {
-          toolbar: [
-            ["bold", "italic", "underline"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            ["clean"],
-          ],
-        },
-        placeholder: "Write something...",
-      });
+      import("quill").then(({ default: QuillClass }) => {
+        const quill = new QuillClass(editorDiv, {
+          theme: "snow",
+          modules: {
+            toolbar: [
+              ["bold", "italic", "underline"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              ["clean"],
+            ],
+          },
+          placeholder: "Write something...",
+        });
 
-      quillRef.current = quill;
+        quillRef.current = quill;
+        setIsQuillReady(true);
 
-      // Initial content
-      if (value) {
-        quill.clipboard.dangerouslyPasteHTML(value);
-      }
+        // Event listeners
+        quill.on("text-change", () => {
+          const html = quill.root.innerHTML;
+          // Handle empty state which Quill renders as <p><br></p>
+          onChangeRef.current(html === "<p><br></p>" ? "" : html);
+        });
 
-      // Event listeners
-      quill.on("text-change", () => {
-        const html = quill.root.innerHTML;
-        // Handle empty state which Quill renders as <p><br></p>
-        onChangeRef.current(html === "<p><br></p>" ? "" : html);
-      });
-
-      quill.root.addEventListener("focus", () => setIsFocused(true));
-      quill.root.addEventListener("blur", () => setIsFocused(false));
+        quill.root.addEventListener("focus", () => setIsFocused(true));
+        quill.root.addEventListener("blur", () => setIsFocused(false));
+      }).catch(err => console.error("Error loading Quill:", err));
     }
 
     // Cleanup not strictly necessary for single usage but good practice
@@ -68,7 +69,7 @@ export function RichTextEditor({ value, onChange, className }: RichTextEditorPro
 
   // Handle external updates (e.g. reset or async load)
   useEffect(() => {
-      if (quillRef.current) {
+      if (quillRef.current && isQuillReady) {
           const currentContent = quillRef.current.root.innerHTML;
           // Only update if editor is empty (initial load) or explicitly cleared
           if (currentContent === "<p><br></p>" && value) {
@@ -77,7 +78,7 @@ export function RichTextEditor({ value, onChange, className }: RichTextEditorPro
                quillRef.current.setText("");
           }
       }
-  }, [value]);
+  }, [value, isQuillReady]);
 
   return (
     <div
