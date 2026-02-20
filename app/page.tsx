@@ -42,7 +42,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col gap-16 py-12">
       {/* Hero Section - Floating Uncropped Banner */}
-      <section className="container mx-auto px-4 max-w-[1440px]">
+      <section className="w-full px-4 md:px-6 lg:px-8 mx-auto max-w-[1920px]">
         <div className="relative w-full rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-gray-50 flex items-center justify-center">
 
           {/* Uncropped Banner Image */}

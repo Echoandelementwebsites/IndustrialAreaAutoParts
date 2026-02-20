@@ -1,0 +1,73 @@
+
+> next_app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1896ms
+○ Compiling / ...
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1
+params: 9
+    at async Home (app/page.tsx:37:20)
+  35 |   let newArrivals: Product[] = [];
+  36 |   try {
+> 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+     |                    ^
+  38 |   } catch (e) {
+  39 |      console.error("Failed to fetch products:", e);
+  40 |   } {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Home (app/page.tsx:37:20)
+    35 |   let newArrivals: Product[] = [];
+    36 |   try {
+  > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+       |                    ^
+    38 |   } catch (e) {
+    39 |      console.error("Failed to fetch products:", e);
+    40 |   } {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Home (app/page.tsx:37:20)
+      35 |   let newArrivals: Product[] = [];
+      36 |   try {
+    > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+         |                    ^
+      38 |   } catch (e) {
+      39 |      console.error("Failed to fetch products:", e);
+      40 |   } {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET / 200 in 8.4s (compile: 7.0s, proxy.ts: 155ms, render: 1211ms)
+ POST / 200 in 94ms (compile: 19ms, proxy.ts: 46ms, render: 29ms)
