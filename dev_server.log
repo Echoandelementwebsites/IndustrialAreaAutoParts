@@ -1,19 +1,14 @@
 
 > next_app@0.1.0 dev
-> next dev
+> next dev -p 3000
 
 ▲ Next.js 16.1.6 (Turbopack)
 - Local:         http://localhost:3000
 - Network:       http://192.168.0.2:3000
 
 ✓ Starting...
-Attention: Next.js now collects completely anonymous telemetry regarding usage.
-This information is used to shape Next.js' roadmap and prioritize features.
-You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
-https://nextjs.org/telemetry
-
 ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-✓ Ready in 1896ms
+✓ Ready in 1649ms
 ○ Compiling / ...
 DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
 Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1
@@ -69,5 +64,170 @@ params: 9
     }
   }
 }
- GET / 200 in 8.4s (compile: 7.0s, proxy.ts: 155ms, render: 1211ms)
- POST / 200 in 94ms (compile: 19ms, proxy.ts: 46ms, render: 29ms)
+ GET / 200 in 6.4s (compile: 5.3s, proxy.ts: 134ms, render: 995ms)
+ POST / 200 in 67ms (compile: 25ms, proxy.ts: 17ms, render: 25ms)
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where ("products"."category" = $1 and "products"."make" ilike $2) order by "products"."created_at" desc limit $3
+params: Engine,%Toyota%,32
+    at async ProductsPage (app/products/page.tsx:73:12)
+  71 |
+  72 |   try {
+> 73 |     data = await db.select().from(products)
+     |            ^
+  74 |       .where(and(...whereConditions))
+  75 |       .limit(limit)
+  76 |       .offset(offset) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where ("products"."category" = $1 and "products"."make" ilike $2) order by "products"."created_at" desc limit $3',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductsPage (app/products/page.tsx:73:12)
+    71 |
+    72 |   try {
+  > 73 |     data = await db.select().from(products)
+       |            ^
+    74 |       .where(and(...whereConditions))
+    75 |       .limit(limit)
+    76 |       .offset(offset) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductsPage (app/products/page.tsx:73:12)
+      71 |
+      72 |   try {
+    > 73 |     data = await db.select().from(products)
+         |            ^
+      74 |       .where(and(...whereConditions))
+      75 |       .limit(limit)
+      76 |       .offset(offset) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products?category=Engine&make=Toyota 200 in 1595ms (compile: 1101ms, proxy.ts: 9ms, render: 486ms)
+ POST /products?category=Engine&make=Toyota 200 in 33ms (compile: 11ms, proxy.ts: 9ms, render: 14ms)
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1
+params: 9
+    at async Home (app/page.tsx:37:20)
+  35 |   let newArrivals: Product[] = [];
+  36 |   try {
+> 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+     |                    ^
+  38 |   } catch (e) {
+  39 |      console.error("Failed to fetch products:", e);
+  40 |   } {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" order by "products"."created_at" desc limit $1',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Home (app/page.tsx:37:20)
+    35 |   let newArrivals: Product[] = [];
+    36 |   try {
+  > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+       |                    ^
+    38 |   } catch (e) {
+    39 |      console.error("Failed to fetch products:", e);
+    40 |   } {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Home (app/page.tsx:37:20)
+      35 |   let newArrivals: Product[] = [];
+      36 |   try {
+    > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+         |                    ^
+      38 |   } catch (e) {
+      39 |      console.error("Failed to fetch products:", e);
+      40 |   } {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET / 200 in 294ms (compile: 5ms, proxy.ts: 8ms, render: 281ms)
+ POST / 200 in 25ms (compile: 4ms, proxy.ts: 7ms, render: 13ms)
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where ("products"."category" = $1 and "products"."make" ilike $2) order by "products"."created_at" desc limit $3
+params: Engine,%Toyota%,32
+    at async ProductsPage (app/products/page.tsx:73:12)
+  71 |
+  72 |   try {
+> 73 |     data = await db.select().from(products)
+     |            ^
+  74 |       .where(and(...whereConditions))
+  75 |       .limit(limit)
+  76 |       .offset(offset) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "created_at" from "products" where ("products"."category" = $1 and "products"."make" ilike $2) order by "products"."created_at" desc limit $3',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductsPage (app/products/page.tsx:73:12)
+    71 |
+    72 |   try {
+  > 73 |     data = await db.select().from(products)
+       |            ^
+    74 |       .where(and(...whereConditions))
+    75 |       .limit(limit)
+    76 |       .offset(offset) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductsPage (app/products/page.tsx:73:12)
+      71 |
+      72 |   try {
+    > 73 |     data = await db.select().from(products)
+         |            ^
+      74 |       .where(and(...whereConditions))
+      75 |       .limit(limit)
+      76 |       .offset(offset) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products?category=Engine&make=Toyota 200 in 565ms (compile: 10ms, proxy.ts: 11ms, render: 545ms)
+ POST /products?category=Engine&make=Toyota 200 in 24ms (compile: 5ms, proxy.ts: 6ms, render: 14ms)

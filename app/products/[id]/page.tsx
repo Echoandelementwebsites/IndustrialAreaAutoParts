@@ -31,9 +31,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return { title: "Product Not Found" };
     }
 
+    const cleanDescription = sanitizeHtml(product.description || "", { allowedTags: [], allowedAttributes: {} });
+    const description = `${cleanDescription.substring(0, 150)} Available in Nairobi, Kenya.`;
+    const modelStr = Array.isArray(product.model) ? product.model.join(", ") : product.model;
+
     return {
-      title: `${product.name} | Industrial Area Spare Parts`,
-      description: product.description ? product.description.substring(0, 160) : `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
+      title: `${product.name} for ${product.make} ${modelStr} | Industrial Area Spare Parts`,
+      description: description,
+      openGraph: {
+        images: [product.imageUrl],
+      },
     };
   } catch (error) {
     console.error("Metadata generation error:", error);
@@ -84,18 +91,15 @@ function generateJsonLd(product: Product, baseUrl: string) {
     "@type": "Product",
     name: product.name,
     image: [product.imageUrl],
-    description: product.description || `Buy ${product.name} for ${product.make}. Best price: ${formatCurrency(Number(product.price))}.`,
     brand: {
       "@type": "Brand",
       name: product.make,
     },
     offers: {
       "@type": "Offer",
-      url: `${baseUrl}/products/${product.id}`,
       priceCurrency: "KES",
       price: product.price,
       availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      itemCondition: "https://schema.org/NewCondition",
     },
   });
 }
