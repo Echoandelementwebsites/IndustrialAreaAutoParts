@@ -20,7 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
           <Image
             src={product.imageUrl}
-            alt={product.name}
+            alt={`Front view of ${product.make} ${Array.isArray(product.model) ? product.model.join(", ") : product.model} ${product.name}`}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

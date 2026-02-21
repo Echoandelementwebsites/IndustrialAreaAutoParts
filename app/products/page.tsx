@@ -16,16 +16,10 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  const params = await searchParams;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
 
   // Construct canonical URL
   const url = new URL(`${baseUrl}/products`);
-
-  // Add essential parameters for canonicalization
-  // We include only category and make as per requirements
-  if (typeof params.category === "string") url.searchParams.set("category", params.category);
-  if (typeof params.make === "string") url.searchParams.set("make", params.make);
 
   return {
     title: "Products | Industrial Area Spare Parts",

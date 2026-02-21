@@ -41,6 +41,23 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-16 py-12">
+      <h1 className="sr-only">Premium Ex-Japan Auto Spare Parts in Nairobi, Kenya</h1>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AutoPartsStore",
+            name: "Industrial Area Spare Parts",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Nairobi",
+              addressRegion: "Nairobi County",
+              addressCountry: "KE"
+            },
+          }),
+        }}
+      />
       {/* Hero Section - Floating Uncropped Banner */}
       <section className="w-full px-4 md:px-6 lg:px-8 mx-auto max-w-[1920px]">
         <div className="relative w-full rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] bg-gray-50 flex items-center justify-center">
