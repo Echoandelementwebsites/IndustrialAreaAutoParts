@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
      console.error("Sitemap generation failed to fetch products", e);
   }
 
-  const baseUrl = "https://industrial-parts.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.ke";
 
   const productEntries: MetadataRoute.Sitemap = allProducts.map((product) => ({
     url: `${baseUrl}/products/${product.id}`,
