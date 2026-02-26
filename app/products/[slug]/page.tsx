@@ -12,19 +12,19 @@ import { StickyActionBar } from "@/components/features/sticky-action-bar";
 import sanitizeHtml from "sanitize-html";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 type Product = typeof products.$inferSelect;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
 
-  if (!id || id.length !== 36) return { title: "Product Not Found" };
+  if (!slug) return { title: "Product Not Found" };
 
   try {
     const product = await db.query.products.findFirst({
-      where: eq(products.id, id),
+      where: eq(products.slug, slug),
     });
 
     if (!product) {
@@ -86,33 +86,44 @@ function ProductDescription({ description, model }: { description: string | null
 }
 
 function generateJsonLd(product: Product, baseUrl: string) {
-  return JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    image: [product.imageUrl],
-    brand: {
-      "@type": "Brand",
-      name: product.make,
+  return JSON.stringify([
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      image: [product.imageUrl],
+      brand: {
+        "@type": "Brand",
+        name: product.make,
+      },
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "KES",
+        price: product.price,
+        availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      },
     },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "KES",
-      price: product.price,
-      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-    },
-  });
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Products", "item": `${baseUrl}/products` },
+        { "@type": "ListItem", "position": 2, "name": product.category, "item": `${baseUrl}/products?category=${encodeURIComponent(product.category)}` },
+        { "@type": "ListItem", "position": 3, "name": product.name, "item": `${baseUrl}/products/${product.slug}` }
+      ]
+    }
+  ]);
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { id } = await params;
+  const { slug } = await params;
 
-  if (!id || id.length !== 36) notFound();
+  if (!slug) notFound();
 
   let product;
   try {
      product = await db.query.products.findFirst({
-       where: eq(products.id, id),
+       where: eq(products.slug, slug),
      });
   } catch (e) {
      console.error("DB Error:", e);
@@ -130,7 +141,7 @@ export default async function ProductPage({ params }: Props) {
   const breadcrumbItems = [
     { label: product.make, href: `/products?make=${encodeURIComponent(product.make)}` },
     { label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` },
-    { label: product.name, href: `/products/${product.id}` },
+    { label: product.name, href: `/products/${product.slug}` },
   ];
 
   return (

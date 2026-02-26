@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { checkIsAdmin } from "@/lib/auth";
 import { logger } from "@/lib/logger";
+import { slugify } from "@/lib/utils";
 
 export async function trackEvent(
   eventType: string,
@@ -51,6 +52,9 @@ export async function createProduct(formData: FormData) {
 
     const model = modelStr.split(",").map(m => m.trim()).filter(m => m);
 
+    const baseSlug = slugify(`${category}-${make}-${name}`);
+    const uniqueSlug = `${baseSlug}-${Math.random().toString(36).substring(2, 6)}`;
+
     await db.insert(products).values({
       name,
       category,
@@ -61,6 +65,7 @@ export async function createProduct(formData: FormData) {
       description,
       inStock,
       imageUrl,
+      slug: uniqueSlug,
     });
 
     logger.info("Product created", { name, make, model });
@@ -76,6 +81,7 @@ export async function createProduct(formData: FormData) {
 
 export async function updateProduct(formData: FormData) {
   const id = formData.get("id") as string;
+  let uniqueSlug = "";
   try {
     const isAdmin = await checkIsAdmin();
     if (!isAdmin) throw new Error("Unauthorized");
@@ -100,6 +106,9 @@ export async function updateProduct(formData: FormData) {
 
     const model = modelStr.split(",").map(m => m.trim()).filter(m => m);
 
+    const baseSlug = slugify(`${category}-${make}-${name}`);
+    uniqueSlug = `${baseSlug}-${Math.random().toString(36).substring(2, 6)}`;
+
     await db.update(products).set({
       name,
       category,
@@ -110,6 +119,7 @@ export async function updateProduct(formData: FormData) {
       description,
       inStock,
       imageUrl,
+      slug: uniqueSlug,
     }).where(eq(products.id, id));
 
     logger.info("Product updated", { id, name });
@@ -119,7 +129,7 @@ export async function updateProduct(formData: FormData) {
   }
 
   revalidatePath("/products");
-  revalidatePath(`/products/${id}`);
+  revalidatePath(`/products/${uniqueSlug}`);
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }

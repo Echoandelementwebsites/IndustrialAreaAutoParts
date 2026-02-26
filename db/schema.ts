@@ -20,6 +20,7 @@ export const products = pgTable("products", {
   description: text("description").notNull(),
   inStock: boolean("in_stock").default(true).notNull(),
   imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  slug: text("slug").unique().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

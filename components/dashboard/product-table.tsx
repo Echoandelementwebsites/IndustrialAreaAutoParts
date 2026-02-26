@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, ExternalLink } from "lucide-react";
 import { deleteProduct } from "@/lib/actions";
 import { formatCurrency } from "@/lib/utils";
 
@@ -18,6 +18,7 @@ interface Product {
   price: string;
   inStock: boolean;
   imageUrl: string;
+  slug: string;
 }
 
 export function ProductTable({ products }: { products: Product[] }) {
@@ -85,6 +86,12 @@ export function ProductTable({ products }: { products: Product[] }) {
                   </td>
                   <td className="px-6 py-3 text-right">
                     <div className="flex justify-end gap-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                      <Button asChild size="icon" variant="ghost" className="h-8 w-8 text-gray-500 hover:text-blue-600 hover:bg-blue-50">
+                        <Link href={`/products/${product.slug}`} target="_blank">
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="sr-only">View Live</span>
+                        </Link>
+                      </Button>
                       <Button asChild size="icon" variant="ghost" className="h-8 w-8 text-gray-500 hover:text-black hover:bg-yellow-100">
                         <Link href={`/dashboard/edit/${product.id}`}>
                           <Edit className="h-4 w-4" />
