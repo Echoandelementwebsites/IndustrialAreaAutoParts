@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.ke";
 
   const productEntries: MetadataRoute.Sitemap = allProducts.map((product) => ({
-    url: `${baseUrl}/products/${product.id}`,
+    url: `${baseUrl}/products/${product.slug}`,
     lastModified: new Date(product.createdAt),
     changeFrequency: "weekly",
     priority: 0.8,

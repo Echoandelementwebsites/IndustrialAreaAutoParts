@@ -11,11 +11,12 @@ interface Product {
   make: string;
   model: string[];
   inStock: boolean;
+  slug: string;
 }
 
 export function ProductCard({ product }: { product: Product }) {
   return (
-    <Link href={`/products/${product.id}`} className="group block h-full">
+    <Link href={`/products/${product.slug}`} className="group block h-full">
       <div className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-ease transition-all hover:scale-[1.02] hover:shadow-ease-hover">
         <div className="relative aspect-square w-full overflow-hidden bg-gray-100">
           <Image
