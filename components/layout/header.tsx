@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { GarageWidget } from "@/components/features/garage-widget";
+import { HeaderSearch } from "@/components/features/header-search";
 
 export function Header() {
   return (
@@ -9,6 +10,11 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
            <span className="text-xl font-bold tracking-tight text-[#FFCD11]">4WD AutoSpares</span>
         </Link>
+
+        <div className="hidden md:flex flex-1 items-center justify-center px-8">
+          <HeaderSearch />
+        </div>
+
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">
             About Us
