@@ -11,7 +11,7 @@ export function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-8">
           <Link href="/about" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">
-            About
+            About Us
           </Link>
           <Link href="/products" className="text-sm font-medium text-white hover:text-gray-300 transition-colors">
             Our Products
