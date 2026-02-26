@@ -45,7 +45,7 @@ export default function ContactPage() {
             <div className="space-y-2 text-gray-600">
               <p>
                 <span className="font-medium text-gray-900">Phone:</span>{" "}
-                <a href="tel:+254700000000" className="hover:text-[#FFCD11] transition-colors">+254 700 000 000</a>
+                <a href="tel:+254700000000" className="hover:text-[#FFCD11] transition-colors">+254 728 875 552</a>
               </p>
               <p>
                 <span className="font-medium text-gray-900">Email:</span>{" "}
