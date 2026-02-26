@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 type Product = typeof products.$inferSelect;
 
 export async function generateMetadata({
-  searchParams,
+  searchParams: _searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
