@@ -17,10 +17,10 @@ export default function AboutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
-              Nairobi's Trusted Source for <span className="text-[#FFCD11]">Premium Ex-Japan</span> Auto Parts.
+              Nairobi&apos;s Trusted Source for <span className="text-[#FFCD11]">Premium Ex-Japan</span> Auto Parts.
             </h1>
             <p className="text-lg text-gray-600 leading-relaxed">
-              Located in the heart of Nairobi's Industrial Area, we specialize in importing and distributing high-quality, low-mileage auto parts directly from Japan. Whether you are a professional mechanic or a car owner looking for reliable replacements, we have the inventory and expertise to keep you on the road.
+              Located in the heart of Nairobi&apos;s Industrial Area, we specialize in importing and distributing high-quality, low-mileage auto parts directly from Japan. Whether you are a professional mechanic or a car owner looking for reliable replacements, we have the inventory and expertise to keep you on the road.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <Link href="/products">
@@ -76,7 +76,7 @@ export default function AboutPage() {
             <FeatureCard
               icon={<Clock className="w-8 h-8 text-[#FFCD11]" />}
               title="Sourcing Service"
-              description="Can't find it in our catalog? Use our Request-a-Part service and we will source it for you."
+              description="Can&apos;t find it in our catalog? Use our Request-a-Part service and we will source it for you."
             />
           </div>
         </div>
