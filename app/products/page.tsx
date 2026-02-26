@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { products, categoryEnum } from "@/db/schema";
-import { and, eq, ilike, gte, lte, sql, desc } from "drizzle-orm";
+import { and, eq, ilike, gte, lte, sql, desc, or } from "drizzle-orm";
 import { ProductCard } from "@/components/features/product-card";
 import { ProductFilters } from "@/components/features/product-filters";
 import { PaginationControl } from "@/components/features/pagination-control";
@@ -47,7 +47,16 @@ function buildPriceConditions(params: Record<string, string | string[] | undefin
 
 function buildWhereConditions(params: Record<string, string | string[] | undefined>) {
   const conditions = [];
-  if (typeof params.q === "string") conditions.push(ilike(products.name, `%${params.q}%`));
+  const search = typeof params.search === "string" ? params.search : (typeof params.q === "string" ? params.q : undefined);
+
+  if (search) {
+    conditions.push(
+      or(
+        ilike(products.name, `%${search}%`),
+        ilike(products.make, `%${search}%`)
+      )
+    );
+  }
   conditions.push(...buildFilterConditions(params));
   conditions.push(...buildPriceConditions(params));
   return conditions;
@@ -87,7 +96,7 @@ export default async function ProductsPage({
 
   const totalPages = Math.ceil(count / limit);
 
-  const searchTerm = typeof params.q === "string" ? params.q : "";
+  const searchTerm = typeof params.search === "string" ? params.search : (typeof params.q === "string" ? params.q : "");
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-[1440px]">
