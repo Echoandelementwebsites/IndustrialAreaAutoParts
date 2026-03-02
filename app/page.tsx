@@ -76,7 +76,7 @@ export default async function Home() {
           {/* pointer-events-none on parent ensures image remains clickable/draggable if needed, but we restore pointer events on the button itself */}
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute bottom-[8%] sm:bottom-[12%] left-1/2 transform -translate-x-1/2 pointer-events-auto">
-              <Link href="/products">
+              <Link href="/products" aria-label="Browse our complete catalog of ex-Japan auto parts in Nairobi">
                 <Button
                   size="lg"
                   className="px-8 py-6 text-lg font-bold rounded-full shadow-xl bg-[#FFCD11] text-black hover:bg-[#e6b800] hover:scale-105 transition-all"
@@ -113,7 +113,7 @@ export default async function Home() {
       <section className="container mx-auto px-4 max-w-[1440px]">
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight">New Arrivals</h2>
-          <Link href="/products">
+          <Link href="/products" aria-label="View all newly arrived spare parts in our inventory">
             <Button variant="outline">View All</Button>
           </Link>
         </div>

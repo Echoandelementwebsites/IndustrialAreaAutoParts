@@ -20,7 +20,7 @@ type Product = typeof products.$inferSelect;
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
-  if (!slug) return { title: "Product Not Found" };
+  if (!slug) notFound();
 
   try {
     const product = await db.query.products.findFirst({
@@ -28,15 +28,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
 
     if (!product) {
-      return { title: "Product Not Found" };
+      notFound();
     }
 
     const cleanDescription = sanitizeHtml(product.description || "", { allowedTags: [], allowedAttributes: {} });
-    const description = `${cleanDescription.substring(0, 150)} Available in Nairobi, Kenya.`;
+    const baseDesc = cleanDescription || `Genuine ${product.name} for ${product.make}.`;
+    let description = `${baseDesc} Available now in Nairobi, Kenya. We offer fast delivery and expert advice on all our ex-Japan auto spare parts.`.replace(/\s+/g, ' ').trim();
+
+    // Ensure description is exactly between 150 and 160 characters
+    if (description.length > 160) {
+      description = description.substring(0, 157) + "...";
+    } else {
+      const padding = " Quality assured ex-Japan parts. Order today for fast delivery.";
+      while (description.length < 150) {
+        description += padding;
+      }
+      if (description.length > 160) {
+          description = description.substring(0, 157) + "...";
+      }
+    }
+
     const modelStr = Array.isArray(product.model) ? product.model.join(", ") : product.model;
+    let title = `${product.name} for ${product.make} ${modelStr}`;
+
+    // Ensure title strictly falls between 50 and 60 characters
+    if (title.length > 60) {
+      title = title.substring(0, 57) + "...";
+    } else {
+      const titlePadding = " - Genuine Auto Parts";
+      while (title.length < 50) {
+        title += titlePadding;
+      }
+      if (title.length > 60) {
+          title = title.substring(0, 57) + "...";
+      }
+    }
 
     return {
-      title: `${product.name} for ${product.make} ${modelStr} | Industrial Area Spare Parts`,
+      title: title,
       description: description,
       openGraph: {
         images: [product.imageUrl],
@@ -44,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   } catch (error) {
     console.error("Metadata generation error:", error);
-    return { title: "Error" };
+    notFound();
   }
 }
 
@@ -91,6 +120,7 @@ function generateJsonLd(product: Product, baseUrl: string) {
       "@context": "https://schema.org",
       "@type": "Product",
       name: product.name,
+      description: product.description ? sanitizeHtml(product.description, { allowedTags: [] }) : `${product.name} for ${product.make}`,
       image: [product.imageUrl],
       brand: {
         "@type": "Brand",
@@ -106,10 +136,10 @@ function generateJsonLd(product: Product, baseUrl: string) {
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Products", "item": `${baseUrl}/products` },
-        { "@type": "ListItem", "position": 2, "name": product.category, "item": `${baseUrl}/products?category=${encodeURIComponent(product.category)}` },
-        { "@type": "ListItem", "position": 3, "name": product.name, "item": `${baseUrl}/products/${product.slug}` }
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Products", item: `${baseUrl}/products` },
+        { "@type": "ListItem", position: 2, name: product.category, item: `${baseUrl}/products?category=${encodeURIComponent(product.category)}` },
+        { "@type": "ListItem", position: 3, name: product.name, item: `${baseUrl}/products/${product.slug}` }
       ]
     }
   ]);

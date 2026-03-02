@@ -16,14 +16,14 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.ke";
 
-  // Construct canonical URL
+  // Construct canonical URL explicitly to avoid spider traps with URL parameters
   const url = new URL(`${baseUrl}/products`);
 
   return {
-    title: "Products | Industrial Area Spare Parts",
-    description: "Browse our extensive catalog of industrial spare parts.",
+    title: "Products",
+    description: "Browse our extensive catalog of ex-Japan industrial and auto spare parts in Nairobi. We stock engines, body panels, wheels, and suspension components.",
     alternates: {
       canonical: url.toString(),
     },

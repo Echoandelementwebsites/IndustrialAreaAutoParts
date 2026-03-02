@@ -1,0 +1,108 @@
+
+> next_app@0.1.0 start
+> next start
+
+▲ Next.js 16.1.6
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 745ms
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DB Error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37214)
+    at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:14847) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at bB.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:14:10448)
+      at async (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39581)
+      at async gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37189)
+      at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+      at async u (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:14847) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async bB.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:14:10359)
+        at async (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39581)
+        at async gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37189)
+        at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+        at async u (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:14847) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+Metadata generation error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37214)
+    at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+    at async Module.r (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:12815) {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at bB.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:14:10448)
+      at async (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39581)
+      at async gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37189)
+      at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+      at async Module.r (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:12815) {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async bB.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:14:10359)
+        at async (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39581)
+        at async gc.queryWithCache (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:37189)
+        at async gc.execute (.next/server/chunks/ssr/lib_db_ts_f1cbcace._.js:25:39538)
+        at async Module.r (.next/server/chunks/ssr/[root-of-the-server]__51f90482._.js:8:12815) {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '3906960699'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '3906960699'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '3906960699'
+}
