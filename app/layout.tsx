@@ -10,8 +10,8 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: {
-    default: "Industrial Area Spare Parts | Genuine Auto Parts Nairobi",
-    template: "%s | Industrial Area Spare Parts",
+    default: "4WD AutoSpares | Genuine Auto Parts Nairobi",
+    template: "%s | 4WD AutoSpares",
   },
   description: "Find high-quality ex-Japan auto spare parts in Nairobi, Kenya. Our inventory includes engines, suspension components, body panels, and genuine accessories.",
   openGraph: {
