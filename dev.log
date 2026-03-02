@@ -1,0 +1,529 @@
+
+> next_app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1835ms
+○ Compiling /products/[slug] ...
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DB Error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async ProductPage (app/products/[slug]/page.tsx:150:16)
+  148 |   let product;
+  149 |   try {
+> 150 |      product = await db.query.products.findFirst({
+      |                ^
+  151 |        where: eq(products.slug, slug),
+  152 |      });
+  153 |   } catch (e) { {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductPage (app/products/[slug]/page.tsx:150:16)
+    148 |   let product;
+    149 |   try {
+  > 150 |      product = await db.query.products.findFirst({
+        |                ^
+    151 |        where: eq(products.slug, slug),
+    152 |      });
+    153 |   } catch (e) { {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductPage (app/products/[slug]/page.tsx:150:16)
+      148 |   let product;
+      149 |   try {
+    > 150 |      product = await db.query.products.findFirst({
+          |                ^
+      151 |        where: eq(products.slug, slug),
+      152 |      });
+      153 |   } catch (e) { {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+Metadata generation error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+  24 |
+  25 |   try {
+> 26 |     const product = await db.query.products.findFirst({
+     |                     ^
+  27 |       where: eq(products.slug, slug),
+  28 |     });
+  29 | {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+    24 |
+    25 |   try {
+  > 26 |     const product = await db.query.products.findFirst({
+       |                     ^
+    27 |       where: eq(products.slug, slug),
+    28 |     });
+    29 | {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+      24 |
+      25 |   try {
+    > 26 |     const product = await db.query.products.findFirst({
+         |                     ^
+      27 |       where: eq(products.slug, slug),
+      28 |     });
+      29 | {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products/does-not-exist 200 in 12.2s (compile: 8.4s, proxy.ts: 158ms, render: 3.7s)
+ POST /products/does-not-exist 200 in 184ms (compile: 42ms, proxy.ts: 14ms, render: 128ms)
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+Failed to fetch products: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" order by "products"."created_at" desc limit $1
+params: 9
+    at async Home (app/page.tsx:37:20)
+  35 |   let newArrivals: Product[] = [];
+  36 |   try {
+> 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+     |                    ^
+  38 |   } catch (e) {
+  39 |      console.error("Failed to fetch products:", e);
+  40 |   } {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" order by "products"."created_at" desc limit $1',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Home (app/page.tsx:37:20)
+    35 |   let newArrivals: Product[] = [];
+    36 |   try {
+  > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+       |                    ^
+    38 |   } catch (e) {
+    39 |      console.error("Failed to fetch products:", e);
+    40 |   } {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Home (app/page.tsx:37:20)
+      35 |   let newArrivals: Product[] = [];
+      36 |   try {
+    > 37 |      newArrivals = await db.select().from(products).orderBy(desc(products.createdAt)).limit(9);
+         |                    ^
+      38 |   } catch (e) {
+      39 |      console.error("Failed to fetch products:", e);
+      40 |   } {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET / 200 in 1997ms (compile: 1269ms, proxy.ts: 9ms, render: 719ms)
+✓ Compiled in 243ms
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+ HEAD /products/does-not-exist 200 in 1519ms (compile: 535ms, proxy.ts: 23ms, render: 961ms)
+DB Error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async ProductPage (app/products/[slug]/page.tsx:150:16)
+  148 |   let product;
+  149 |   try {
+> 150 |      product = await db.query.products.findFirst({
+      |                ^
+  151 |        where: eq(products.slug, slug),
+  152 |      });
+  153 |   } catch (e) { {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductPage (app/products/[slug]/page.tsx:150:16)
+    148 |   let product;
+    149 |   try {
+  > 150 |      product = await db.query.products.findFirst({
+        |                ^
+    151 |        where: eq(products.slug, slug),
+    152 |      });
+    153 |   } catch (e) { {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductPage (app/products/[slug]/page.tsx:150:16)
+      148 |   let product;
+      149 |   try {
+    > 150 |      product = await db.query.products.findFirst({
+          |                ^
+      151 |        where: eq(products.slug, slug),
+      152 |      });
+      153 |   } catch (e) { {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+Metadata generation error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+  24 |
+  25 |   try {
+> 26 |     const product = await db.query.products.findFirst({
+     |                     ^
+  27 |       where: eq(products.slug, slug),
+  28 |     });
+  29 | {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+    24 |
+    25 |   try {
+  > 26 |     const product = await db.query.products.findFirst({
+       |                     ^
+    27 |       where: eq(products.slug, slug),
+    28 |     });
+    29 | {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+      24 |
+      25 |   try {
+    > 26 |     const product = await db.query.products.findFirst({
+         |                     ^
+      27 |       where: eq(products.slug, slug),
+      28 |     });
+      29 | {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DB Error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async ProductPage (app/products/[slug]/page.tsx:150:16)
+  148 |   let product;
+  149 |   try {
+> 150 |      product = await db.query.products.findFirst({
+      |                ^
+  151 |        where: eq(products.slug, slug),
+  152 |      });
+  153 |   } catch (e) { {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductPage (app/products/[slug]/page.tsx:150:16)
+    148 |   let product;
+    149 |   try {
+  > 150 |      product = await db.query.products.findFirst({
+        |                ^
+    151 |        where: eq(products.slug, slug),
+    152 |      });
+    153 |   } catch (e) { {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductPage (app/products/[slug]/page.tsx:150:16)
+      148 |   let product;
+      149 |   try {
+    > 150 |      product = await db.query.products.findFirst({
+          |                ^
+      151 |        where: eq(products.slug, slug),
+      152 |      });
+      153 |   } catch (e) { {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+Metadata generation error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+  24 |
+  25 |   try {
+> 26 |     const product = await db.query.products.findFirst({
+     |                     ^
+  27 |       where: eq(products.slug, slug),
+  28 |     });
+  29 | {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+    24 |
+    25 |   try {
+  > 26 |     const product = await db.query.products.findFirst({
+       |                     ^
+    27 |       where: eq(products.slug, slug),
+    28 |     });
+    29 | {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+      24 |
+      25 |   try {
+    > 26 |     const product = await db.query.products.findFirst({
+         |                     ^
+      27 |       where: eq(products.slug, slug),
+      28 |     });
+      29 | {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products/does-not-exist 200 in 561ms (compile: 44ms, proxy.ts: 8ms, render: 509ms)
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+✓ Compiled in 430ms
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.
+DB Error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async ProductPage (app/products/[slug]/page.tsx:150:16)
+  148 |   let product;
+  149 |   try {
+> 150 |      product = await db.query.products.findFirst({
+      |                ^
+  151 |        where: eq(products.slug, slug),
+  152 |      });
+  153 |   } catch (e) { {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async ProductPage (app/products/[slug]/page.tsx:150:16)
+    148 |   let product;
+    149 |   try {
+  > 150 |      product = await db.query.products.findFirst({
+        |                ^
+    151 |        where: eq(products.slug, slug),
+    152 |      });
+    153 |   } catch (e) { {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async ProductPage (app/products/[slug]/page.tsx:150:16)
+      148 |   let product;
+      149 |   try {
+    > 150 |      product = await db.query.products.findFirst({
+          |                ^
+      151 |        where: eq(products.slug, slug),
+      152 |      });
+      153 |   } catch (e) { {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+Metadata generation error: Error: Failed query: select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2
+params: does-not-exist,1
+    at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+  24 |
+  25 |   try {
+> 26 |     const product = await db.query.products.findFirst({
+     |                     ^
+  27 |       where: eq(products.slug, slug),
+  28 |     });
+  29 | {
+  query: 'select "id", "make", "model", "category", "year", "name", "price", "description", "in_stock", "image_url", "slug", "created_at" from "products" "products" where "products"."slug" = $1 limit $2',
+  params: [Array],
+  [cause]: Error [NeonDbError]: Error connecting to database: TypeError: fetch failed
+      at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+    24 |
+    25 |   try {
+  > 26 |     const product = await db.query.products.findFirst({
+       |                     ^
+    27 |       where: eq(products.slug, slug),
+    28 |     });
+    29 | {
+    severity: undefined,
+    code: undefined,
+    detail: undefined,
+    hint: undefined,
+    position: undefined,
+    internalPosition: undefined,
+    internalQuery: undefined,
+    where: undefined,
+    schema: undefined,
+    table: undefined,
+    column: undefined,
+    dataType: undefined,
+    constraint: undefined,
+    file: undefined,
+    line: undefined,
+    routine: undefined,
+    sourceError: TypeError: fetch failed
+        at async Module.generateMetadata (app/products/[slug]/page.tsx:26:21)
+      24 |
+      25 |   try {
+    > 26 |     const product = await db.query.products.findFirst({
+         |                     ^
+      27 |       where: eq(products.slug, slug),
+      28 |     });
+      29 | {
+      [cause]: AggregateError:
+          at ignore-listed frames {
+        code: 'ECONNREFUSED'
+      }
+    }
+  }
+}
+ GET /products/does-not-exist 200 in 2.6s (compile: 906ms, proxy.ts: 98ms, render: 1583ms)
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+⨯ TypeError: controller[kState].transformAlgorithm is not a function
+    at ignore-listed frames {
+  digest: '2536959634'
+}
+DATABASE_URL is not set. Using dummy connection string. DB queries will fail.

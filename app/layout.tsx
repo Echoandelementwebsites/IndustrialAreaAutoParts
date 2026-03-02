@@ -5,9 +5,24 @@ import { Footer } from "@/components/layout/footer";
 import { GarageProvider } from "@/lib/hooks/use-garage";
 import "./globals.css";
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.ke";
+
 export const metadata: Metadata = {
-  title: "4WD AutoSpares",
-  description: "Your trusted source for affordable and high quality auto parts in Nairobi.",
+  metadataBase: new URL(appUrl),
+  title: {
+    default: "4WD AutoSpares | Genuine Auto Parts Nairobi",
+    template: "%s | 4WD AutoSpares",
+  },
+  description: "Find high-quality ex-Japan auto spare parts in Nairobi, Kenya. Our inventory includes engines, suspension components, body panels, and genuine accessories.",
+  openGraph: {
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  alternates: {
+    canonical: "./",
+  },
 };
 
 export default function RootLayout({

@@ -64,7 +64,6 @@ export function RichTextEditor({ value, onChange, className }: RichTextEditorPro
        // Cleaning up Quill instance is hard as it modifies DOM heavily.
        // Since component unmount removes the containerRef content anyway, it's mostly fine.
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle external updates (e.g. reset or async load)
