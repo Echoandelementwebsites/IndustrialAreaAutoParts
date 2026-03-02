@@ -17,6 +17,36 @@ interface Props {
 
 type Product = typeof products.$inferSelect;
 
+function padDescription(baseDesc: string): string {
+  let description = baseDesc.replace(/\s+/g, ' ').trim();
+  if (description.length > 160) {
+    return description.substring(0, 157) + "...";
+  }
+  const padding = " Quality assured ex-Japan parts. Order today for fast delivery.";
+  while (description.length < 150) {
+    description += padding;
+  }
+  if (description.length > 160) {
+    return description.substring(0, 157) + "...";
+  }
+  return description;
+}
+
+function padTitle(baseTitle: string): string {
+  let title = baseTitle;
+  if (title.length > 60) {
+    return title.substring(0, 57) + "...";
+  }
+  const titlePadding = " - Genuine Auto Parts";
+  while (title.length < 50) {
+    title += titlePadding;
+  }
+  if (title.length > 60) {
+    return title.substring(0, 57) + "...";
+  }
+  return title;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
@@ -32,37 +62,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     const cleanDescription = sanitizeHtml(product.description || "", { allowedTags: [], allowedAttributes: {} });
-    const baseDesc = cleanDescription || `Genuine ${product.name} for ${product.make}.`;
-    let description = `${baseDesc} Available now in Nairobi, Kenya. We offer fast delivery and expert advice on all our ex-Japan auto spare parts.`.replace(/\s+/g, ' ').trim();
-
-    // Ensure description is exactly between 150 and 160 characters
-    if (description.length > 160) {
-      description = description.substring(0, 157) + "...";
-    } else {
-      const padding = " Quality assured ex-Japan parts. Order today for fast delivery.";
-      while (description.length < 150) {
-        description += padding;
-      }
-      if (description.length > 160) {
-          description = description.substring(0, 157) + "...";
-      }
-    }
+    const baseDescText = cleanDescription || `Genuine ${product.name} for ${product.make}.`;
+    const baseDesc = `${baseDescText} Available now in Nairobi, Kenya. We offer fast delivery and expert advice on all our ex-Japan auto spare parts.`;
+    const description = padDescription(baseDesc);
 
     const modelStr = Array.isArray(product.model) ? product.model.join(", ") : product.model;
-    let title = `${product.name} for ${product.make} ${modelStr}`;
-
-    // Ensure title strictly falls between 50 and 60 characters
-    if (title.length > 60) {
-      title = title.substring(0, 57) + "...";
-    } else {
-      const titlePadding = " - Genuine Auto Parts";
-      while (title.length < 50) {
-        title += titlePadding;
-      }
-      if (title.length > 60) {
-          title = title.substring(0, 57) + "...";
-      }
-    }
+    const title = padTitle(`${product.name} for ${product.make} ${modelStr}`);
 
     return {
       title: title,

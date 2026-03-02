@@ -11,11 +11,7 @@ import { Button } from "@/components/ui/button";
 
 type Product = typeof products.$inferSelect;
 
-export async function generateMetadata({
-  searchParams: _searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.ke";
 
   // Construct canonical URL explicitly to avoid spider traps with URL parameters
