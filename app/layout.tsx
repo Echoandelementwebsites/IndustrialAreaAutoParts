@@ -10,12 +10,22 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.4wdspareparts.co.
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: {
-    default: "4WD AutoSpares | Genuine Auto Parts Nairobi",
+    default: "4WD AutoSpares | Genuine Ex-Japan Auto Parts, Engines & Spares in Nairobi",
     template: "%s | 4WD AutoSpares",
   },
   description: "Find high-quality ex-Japan auto spare parts in Nairobi, Kenya. Our inventory includes engines, suspension components, body panels, and genuine accessories.",
   openGraph: {
     type: "website",
+    siteName: "4WD AutoSpares",
+    locale: "en_KE",
+    images: [
+      {
+        url: "https://www.4wdspareparts.co.ke/images/banner.png",
+        width: 1235,
+        height: 577,
+        alt: "4WD AutoSpares | Genuine Ex-Japan Auto Parts, Engines & Spares in Nairobi",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

@@ -6,7 +6,7 @@ import { products } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import { ProductCard } from "@/components/features/product-card";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 type Product = typeof products.$inferSelect;
 
