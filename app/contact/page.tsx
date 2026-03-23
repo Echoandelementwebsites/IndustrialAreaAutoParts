@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { siteConfig } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact Us | Industrial Area Spare Parts",
@@ -45,7 +46,7 @@ export default function ContactPage() {
             <div className="space-y-2 text-gray-600">
               <p>
                 <span className="font-medium text-gray-900">Phone:</span>{" "}
-                <a href="tel:+254700000000" className="hover:text-[#FFCD11] transition-colors">+254 728 875 552</a>
+                <a href={`tel:${siteConfig.contact.phoneHref}`} className="hover:text-[#FFCD11] transition-colors">{siteConfig.contact.phoneDisplay}</a>
               </p>
               <p>
                 <span className="font-medium text-gray-900">Email:</span>{" "}

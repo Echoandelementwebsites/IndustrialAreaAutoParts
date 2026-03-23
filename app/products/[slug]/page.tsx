@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { StickyActionBar } from "@/components/features/sticky-action-bar";
 import sanitizeHtml from "sanitize-html";
+import { siteConfig } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -169,7 +170,7 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
+  const waNumber = siteConfig.contact.whatsappNumber;
   const whatsappMessage = `Hi, I am interested in ${product.name} for ${product.make} listed at ${formatCurrency(Number(product.price))}.`;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://industrial-parts.com";
 
