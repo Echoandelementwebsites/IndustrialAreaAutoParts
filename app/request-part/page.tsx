@@ -7,6 +7,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import { Upload, Loader2, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { useGarage } from "@/lib/hooks/use-garage";
+import { siteConfig } from "@/lib/constants";
 
 interface RequestFormData {
   make: string;
@@ -199,7 +200,7 @@ export default function RequestPartPage() {
     // Simulate a small delay for better UX or tracking
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    const waNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
+    const waNumber = siteConfig.contact.whatsappNumber;
     let message = `Hi, I need a ${data.partName} for a ${data.year} ${data.make} ${data.model}.`;
     if (data.imageUrl) {
       message += ` See photo: ${data.imageUrl}`;
